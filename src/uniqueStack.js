@@ -3,47 +3,47 @@
  */
 
 export default class UniqueStack {
-	/**
-	 * Конструктор.
-	 */
+    /**
+     * Конструктор.
+     */
 
-	constructor () {
-		this.values = [];
-	}
+    constructor () {
+        this.values = [];
+    }
 
-	/**
-	 * Стек пуст?
-	 */
+    /**
+     * Стек пуст?
+     */
 
-	get empty () {
-		return this.values.length === 0;
-	}
+    get empty () {
+        return this.values.length === 0;
+    }
 
-	/**
-	 * Возвращает текущее значение.
-	 */
+    /**
+     * Возвращает текущее значение.
+     */
 
-	get current () {
-		return this.values[
-			this.values.length - 1
-		];
-	}
+    get current () {
+        return this.values[
+            this.values.length - 1
+        ];
+    }
 
-	/**
-	 * Добавляет значение, если его еще нет в стеке.
-	 * @param value значение.
-	 */
+    /**
+     * Добавляет значение, если его еще нет в стеке.
+     * @param value значение.
+     */
 
-	push (value) {
-		if (!this.values.some(v => v === value))
-			this.values.push(value);
-	}
+    push (value) {
+        if (!this.values.some(v => v === value))
+            this.values.push(value);
+    }
 
-	/**
-	 * Удалет текущее значение.
-	 */
+    /**
+     * Удалет текущее значение.
+     */
 
-	pop () {
-		this.values.pop();
-	}
+    pop () {
+        this.values.pop();
+    }
 }

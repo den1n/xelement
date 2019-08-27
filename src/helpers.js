@@ -5,19 +5,19 @@
  */
 
 export function getType (value) {
-	if (value instanceof Date) {
-		return Date;
-	} else if (Array.isArray(value)) {
-		return Array;
-	} else if (isPlainObject(value)) {
-		return Object;
-	} else {
-		return {
-			number: Number,
-			string: String,
-			boolean: Boolean,
-		}[typeof value] || '';
-	}
+    if (value instanceof Date) {
+        return Date;
+    } else if (Array.isArray(value)) {
+        return Array;
+    } else if (isPlainObject(value)) {
+        return Object;
+    } else {
+        return {
+            number: Number,
+            string: String,
+            boolean: Boolean,
+        }[typeof value] || '';
+    }
 }
 
 /**
@@ -27,11 +27,11 @@ export function getType (value) {
  */
 
 export function isPlainObject (object) {
-	if (typeof object == 'object' && object !== null) {
-		const prototype = Object.getPrototypeOf(object);
-		return prototype === Object.prototype || prototype === null;
-	} else
-		return false;
+    if (typeof object == 'object' && object !== null) {
+        const prototype = Object.getPrototypeOf(object);
+        return prototype === Object.prototype || prototype === null;
+    } else
+        return false;
 }
 
 /**
@@ -40,8 +40,8 @@ export function isPlainObject (object) {
  */
 
 export function textToProperty (text) {
-	const uc = text.split('-').map(item => item.charAt(0).toUpperCase() + item.slice(1)).join('');
-	return uc.charAt(0).toLowerCase() + uc.slice(1);
+    const uc = text.split('-').map(item => item.charAt(0).toUpperCase() + item.slice(1)).join('');
+    return uc.charAt(0).toLowerCase() + uc.slice(1);
 }
 
 /**
@@ -53,9 +53,9 @@ export function textToProperty (text) {
  */
 
 export function evaluate (context, expression, params) {
-	params = params || {};
-	return new Function(...Object.keys(params), `try { ${expression} } catch (e) { console.warn(e); }`)
-		.apply(context, Object.values(params));
+    params = params || {};
+    return new Function(...Object.keys(params), `try { ${expression} } catch (e) { console.warn(e); }`)
+        .apply(context, Object.values(params));
 }
 
 /**
@@ -66,13 +66,13 @@ export function evaluate (context, expression, params) {
  */
 
 export function normalizeAttribute (name, value) {
-	if ([':class', ':style'].includes(name)) {
-		return 'x-' + name.slice(1);
-	} else if (name.charAt(0) === ':') {
-		return 'x-prop' + name;
-	} else if (name.charAt(0) === '@') {
-		return 'x-on:' + name.slice(1);
-	} else if (!name.includes('x-') && value.includes('${'))
-		return 'x-attr:' + name;
-	return name;
+    if ([':class', ':style'].includes(name)) {
+        return 'x-' + name.slice(1);
+    } else if (name.charAt(0) === ':') {
+        return 'x-prop' + name;
+    } else if (name.charAt(0) === '@') {
+        return 'x-on:' + name.slice(1);
+    } else if (!name.includes('x-') && value.includes('${'))
+        return 'x-attr:' + name;
+    return name;
 }
