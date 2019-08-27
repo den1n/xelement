@@ -1,0 +1,26 @@
+{
+  "name": "xelement",
+  "version": "1.0.0",
+  "description": "Base class for custom HTML elements with reactive features.",
+  "main": "index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/den1n/xelement.git"
+  },
+  "keywords": [
+    "xelement",
+    "reactive"
+  ],
+  "author": "Dmitry Kadochnikov (iqmass@gmail.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/den1n/xelement/issues"
+  },
+  "homepage": "https://github.com/den1n/xelement#readme"
+}
