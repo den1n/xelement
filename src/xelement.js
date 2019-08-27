@@ -1,8 +1,8 @@
 /* Dmitry Kadochnikov (iqmass@gmail.com). MIT License. */
 
-import * as Helpers from 'helpers';
-import Subscriber from 'subscriber';
-import UniqueStack from 'uniqueStack';
+import * as Helpers from './helpers';
+import Subscriber from './subscriber';
+import UniqueStack from './uniqueStack';
 
 // Символ проксированния.
 const proxied = Symbol('proxied');

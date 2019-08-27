@@ -1,1 +1,1 @@
-export * from 'src/XElement';
+export * from './src/xelement';

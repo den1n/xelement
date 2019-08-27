@@ -1,5 +1,5 @@
 {
-  "name": "xelement",
+  "name": "@den1n/xelement",
   "version": "1.0.0",
   "description": "Base class for custom HTML elements with reactive features.",
   "main": "index.js",
