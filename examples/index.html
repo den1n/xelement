@@ -1,341 +1,341 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>XElement</title>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<style>
-		html,
-		body {
-			height: 100%;
-			min-height: 100%;
-		}
+    <title>XElement</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        html,
+        body {
+            height: 100%;
+            min-height: 100%;
+        }
 
-		body {
-			font-family: Arial, sans-serif;
-			font-size: 14px;
-			padding: 20px;
-			margin: 0;
-		}
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            padding: 20px;
+            margin: 0;
+        }
 
-		fieldset {
-			border: 1px solid #bbb;
-			margin: 5px 0 10px 0;
-		}
+        fieldset {
+            border: 1px solid #bbb;
+            margin: 5px 0 10px 0;
+        }
 
-		label {
-			align-items: center;
-			break-inside: avoid;
-			display: grid;
-			grid-gap: 4px;
-			grid-template-columns: 8fr 16fr;
-			justify-items: start;
-			margin: 4px 0;
-			min-height: 31px;
-		}
+        label {
+            align-items: center;
+            break-inside: avoid;
+            display: grid;
+            grid-gap: 4px;
+            grid-template-columns: 8fr 16fr;
+            justify-items: start;
+            margin: 4px 0;
+            min-height: 31px;
+        }
 
-		label[hidden] {
-			display: none;
-		}
+        label[hidden] {
+            display: none;
+        }
 
-		label>span:first-child {
-			overflow: hidden;
-			text-overflow: ellipsis;
-		}
+        label>span:first-child {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
-		input[type=text],
-		select,
-		textarea {
-			display: inline-block;
-			font-family: inherit;
-			font-size: inherit;
-			line-height: inherit;
-			margin: 4px 0;
-			padding: 0;
-			width: 100%;
-		}
+        input[type=text],
+        select,
+        textarea {
+            display: inline-block;
+            font-family: inherit;
+            font-size: inherit;
+            line-height: inherit;
+            margin: 4px 0;
+            padding: 0;
+            width: 100%;
+        }
 
-		textarea {
-			min-height: 40px;
-			resize: vertical;
-		}
+        textarea {
+            min-height: 40px;
+            resize: vertical;
+        }
 
-		pre {
-			background: #eee;
-			padding: 10px;
-		}
+        pre {
+            background: #eee;
+            padding: 10px;
+        }
 
-		h1 {
-			margin: 0 0 15px 0;
-		}
+        h1 {
+            margin: 0 0 15px 0;
+        }
 
-		ul {
-			padding-left: 20px;
-		}
+        ul {
+            padding-left: 20px;
+        }
 
-		.background {
-			background: #eee
-		}
+        .background {
+            background: #eee
+        }
 
-		.underline {
-			text-decoration: underline
-		}
+        .underline {
+            text-decoration: underline
+        }
 
-		.color {
-			color: red
-		}
-	</style>
+        .color {
+            color: red
+        }
+    </style>
 </head>
 <body>
-	<x-app name="Приложение">
-		<fieldset>
-			<legend>Поля ввода</legend>
-			<label>
-				<span>Поле</span>
-				<input type="text" name="name" x-model="this.name">
-			</label>
-			<label>
-				<span>Список элементов</span>
-				<select name="items" x-model="this.itemSelected">
-					<option x-for="this.itemsList as i: name" :value="i" x-text="name"></option>
-				</select>
-			</label>
-			<label>
-				<span>Список объектов</span>
-				<select name="objects" x-model="this.objectsSelected" >
-					<option x-for="this.objectsList as item" :value="item.value" x-text="item.name"></option>
-				</select>
-			</label>
-			<label>
-				<span>Множественный выбор</span>
-				<select name="multiple" x-model="this.multipleSelected" size="5" multiple>
-					<option x-for="this.multipleList" :value="index" x-text="item"></option>
-				</select>
-			</label>
-			<label>
-				<span>Флажок</span>
-				<div>
-					<input type="checkbox" name="checkbox" value="1" x-model="this.checkbox">
-					<span>Выбрано: ${this.checkbox ? 'да' : 'нет'}</span>
-				</div>
-			</label>
-			<label>
-				<span>Флажки в массиве</span>
-				<div>
-					<input type="checkbox" name="checkbox" value="1" x-model="this.checkboxes">
-					<input type="checkbox" name="checkbox" value="2" x-model="this.checkboxes">
-					<input type="checkbox" name="checkbox" value="3" x-model="this.checkboxes">
-					<span>Выбрано: ${this.checkboxes.length ? this.checkboxes.join(', ') : 'Пусто'}</span>
-				</div>
-			</label>
-			<label>
-				<span>Радио</span>
-				<div>
-					<input type="radio" name="radio" value="1" x-model="this.radio">
-					<input type="radio" name="radio" value="2" x-model="this.radio">
-					<input type="radio" name="radio" value="3" x-model="this.radio">
-					<span>Выбрано: ${this.radio}</span>
-				</div>
-			</label>
-		</fieldset>
-		<fieldset>
-			<legend>Обработка событий</legend>
-			<label>
-				<span>Всего кликов: ${this.clicks}</span>
-				<div>
-					<button name="inc" @click="this.clickHandler($e)" title="Выполняется метод">Прибавить</button>
-					<button name="dec" @click="this.clicks--" title="Выполняется на месте">Отнять</button>
-				</div>
-			</label>
-			<label>
-				<span>Сообщение от потомка</span>
-				<span x-text="this.childMessage"></span>
-			</label>
-		</fieldset>
-		<fieldset>
-			<legend>Стили и классы</legend>
-			<label>
-				<span>Стили ч.з. объект</span>
-				<div :style="{color: this.fontColor, fontSize: this.fontSize + 'px'}">Стилизованный текст</div>
-			</label>
-			<label>
-				<span>Классы ч.з. объект</span>
-				<div class="initial" :class="{background: this.changeBackground, underline: this.changeDecoration, color: this.changeColor}">
-					<input type="checkbox" name="classes" value="1" x-model="this.changeBackground">
-					<span>Цвет фона</span>
-					<input type="checkbox" name="classes" value="1" x-model="this.changeColor">
-					<span>Цвет текста</span>
-					<input type="checkbox" name="classes" value="1" x-model="this.changeDecoration">
-					<span>Подчерктнуть текст</span>
-				</div>
-			</label>
-			<label>
-				<span>Классы ч.з. свойство</span>
-				<div class="initial" :class="this.classes">
-					<input type="checkbox" name="background" value="1" x-model="this.classes">
-					<span>Цвет фона</span>
-					<input type="checkbox" name="color" value="1" x-model="this.classes">
-					<span>Цвет текста</span>
-					<input type="checkbox" name="underline" value="1" x-model="this.classes">
-					<span>Подчерктнуть текст</span>
-				</div>
-			</label>
-			<label>
-				<span>Классы ч.з. массив</span>
-				<div class="initial" :class="this.classesArray">Стилизованный текст</div>
-			</label>
-		</fieldset>
-		<fieldset>
-			<legend>Потомок</legend>
-			<x-children x-if="!this.checkbox" :input="this.name" :selected="this.multipleSelected" @notify="this.notifyHandler($e)">
-				<label>
-					<span>Родительский элемент</span>
-					<span x-text="$parent.localName"></span>
-				</label>
-				<label>
-					<span>Входное свойство</span>
-					<input type="text" name="input" x-model="this.input">
-				</label>
-				<label>
-					<span>Сгенерировать событие</span>
-					<button name="send" @click="this.sendMessage()">Выполнить</button>
-				</label>
-				<pre>Состояние => ${JSON.stringify(this, null, '   ')}</pre>
-			</x-children>
-			<label x-else>Потомок удален.</label>
-		</fieldset>
-		<fieldset>
-			<legend>Другое</legend>
-			<label>
-				<span>Свойство экземпляра</span>
-				<span x-text="this.instanceProperty"></span>
-			</label>
-			<label>
-				<span>Метод экземпляра</span>
-				<span x-text="this.instanceMethod()"></span>
-			</label>
-			<label>
-				<span>Условное отображение</span>
-				<span x-show="this.checkbox">Отображено</span>
-			</label>
-			<label>
-				<span>Условная отрисовка</span>
-				<span x-if="this.checkbox">
-					<span>Элемент 1</span>
-					<span>Элемент 2</span>
-					<span>Элемент 3</span>
-				</span>
-			</label>
-		</fieldset>
-		<template>
-			<pre>Состояние => ${JSON.stringify(this, null, '   ')}</pre>
-		</template>
-	</x-app>
+    <x-app name="Приложение">
+        <fieldset>
+            <legend>Поля ввода</legend>
+            <label>
+                <span>Поле</span>
+                <input type="text" name="name" x-model="this.name">
+            </label>
+            <label>
+                <span>Список элементов</span>
+                <select name="items" x-model="this.itemSelected">
+                    <option x-for="this.itemsList as i: name" :value="i" x-text="name"></option>
+                </select>
+            </label>
+            <label>
+                <span>Список объектов</span>
+                <select name="objects" x-model="this.objectsSelected" >
+                    <option x-for="this.objectsList as item" :value="item.value" x-text="item.name"></option>
+                </select>
+            </label>
+            <label>
+                <span>Множественный выбор</span>
+                <select name="multiple" x-model="this.multipleSelected" size="5" multiple>
+                    <option x-for="this.multipleList" :value="index" x-text="item"></option>
+                </select>
+            </label>
+            <label>
+                <span>Флажок</span>
+                <div>
+                    <input type="checkbox" name="checkbox" value="1" x-model="this.checkbox">
+                    <span>Выбрано: ${this.checkbox ? 'да' : 'нет'}</span>
+                </div>
+            </label>
+            <label>
+                <span>Флажки в массиве</span>
+                <div>
+                    <input type="checkbox" name="checkbox" value="1" x-model="this.checkboxes">
+                    <input type="checkbox" name="checkbox" value="2" x-model="this.checkboxes">
+                    <input type="checkbox" name="checkbox" value="3" x-model="this.checkboxes">
+                    <span>Выбрано: ${this.checkboxes.length ? this.checkboxes.join(', ') : 'Пусто'}</span>
+                </div>
+            </label>
+            <label>
+                <span>Радио</span>
+                <div>
+                    <input type="radio" name="radio" value="1" x-model="this.radio">
+                    <input type="radio" name="radio" value="2" x-model="this.radio">
+                    <input type="radio" name="radio" value="3" x-model="this.radio">
+                    <span>Выбрано: ${this.radio}</span>
+                </div>
+            </label>
+        </fieldset>
+        <fieldset>
+            <legend>Обработка событий</legend>
+            <label>
+                <span>Всего кликов: ${this.clicks}</span>
+                <div>
+                    <button name="inc" @click="this.clickHandler($e)" title="Выполняется метод">Прибавить</button>
+                    <button name="dec" @click="this.clicks--" title="Выполняется на месте">Отнять</button>
+                </div>
+            </label>
+            <label>
+                <span>Сообщение от потомка</span>
+                <span x-text="this.childMessage"></span>
+            </label>
+        </fieldset>
+        <fieldset>
+            <legend>Стили и классы</legend>
+            <label>
+                <span>Стили ч.з. объект</span>
+                <div :style="{color: this.fontColor, fontSize: this.fontSize + 'px'}">Стилизованный текст</div>
+            </label>
+            <label>
+                <span>Классы ч.з. объект</span>
+                <div class="initial" :class="{background: this.changeBackground, underline: this.changeDecoration, color: this.changeColor}">
+                    <input type="checkbox" name="classes" value="1" x-model="this.changeBackground">
+                    <span>Цвет фона</span>
+                    <input type="checkbox" name="classes" value="1" x-model="this.changeColor">
+                    <span>Цвет текста</span>
+                    <input type="checkbox" name="classes" value="1" x-model="this.changeDecoration">
+                    <span>Подчерктнуть текст</span>
+                </div>
+            </label>
+            <label>
+                <span>Классы ч.з. свойство</span>
+                <div class="initial" :class="this.classes">
+                    <input type="checkbox" name="background" value="1" x-model="this.classes">
+                    <span>Цвет фона</span>
+                    <input type="checkbox" name="color" value="1" x-model="this.classes">
+                    <span>Цвет текста</span>
+                    <input type="checkbox" name="underline" value="1" x-model="this.classes">
+                    <span>Подчерктнуть текст</span>
+                </div>
+            </label>
+            <label>
+                <span>Классы ч.з. массив</span>
+                <div class="initial" :class="this.classesArray">Стилизованный текст</div>
+            </label>
+        </fieldset>
+        <fieldset>
+            <legend>Потомок</legend>
+            <x-children x-if="!this.checkbox" :input="this.name" :selected="this.multipleSelected" @notify="this.notifyHandler($e)">
+                <label>
+                    <span>Родительский элемент</span>
+                    <span x-text="$parent.localName"></span>
+                </label>
+                <label>
+                    <span>Входное свойство</span>
+                    <input type="text" name="input" x-model="this.input">
+                </label>
+                <label>
+                    <span>Сгенерировать событие</span>
+                    <button name="send" @click="this.sendMessage()">Выполнить</button>
+                </label>
+                <pre>Состояние => ${JSON.stringify(this, null, '   ')}</pre>
+            </x-children>
+            <label x-else>Потомок удален.</label>
+        </fieldset>
+        <fieldset>
+            <legend>Другое</legend>
+            <label>
+                <span>Свойство экземпляра</span>
+                <span x-text="this.instanceProperty"></span>
+            </label>
+            <label>
+                <span>Метод экземпляра</span>
+                <span x-text="this.instanceMethod()"></span>
+            </label>
+            <label>
+                <span>Условное отображение</span>
+                <span x-show="this.checkbox">Отображено</span>
+            </label>
+            <label>
+                <span>Условная отрисовка</span>
+                <span x-if="this.checkbox">
+                    <span>Элемент 1</span>
+                    <span>Элемент 2</span>
+                    <span>Элемент 3</span>
+                </span>
+            </label>
+        </fieldset>
+        <template>
+            <pre>Состояние => ${JSON.stringify(this, null, '   ')}</pre>
+        </template>
+    </x-app>
 
-	<script type="module">
-		import XElement from '../src/xelement.js';
+    <script type="module">
+        import XElement from '../src/xelement.js';
 
-		customElements.define('x-app', class extends XElement {
-			constructor() {
-				super();
-			}
+        customElements.define('x-app', class extends XElement {
+            constructor() {
+                super();
+            }
 
-			get template() {
-				return `
-					<style>
-						.col12 {
-							box-sizing: border-box;
-							display: block;
-							float: left;
-							position: relative;
-							width: 50%;
-						}
-						.col12:not(:last-child) {
-							padding-right: 10px;
-						}
-					</style>
-					<h1 :title="this.name" alt="\${this.name}">\${this.name}</h1>
-					<div class="col12">
-						<slot></slot>
-					</div>
-					<div class="col12">
-						<div x-slot></div>
-					</div>
-				`;
-			}
+            get template() {
+                return `
+                    <style>
+                        .col12 {
+                            box-sizing: border-box;
+                            display: block;
+                            float: left;
+                            position: relative;
+                            width: 50%;
+                        }
+                        .col12:not(:last-child) {
+                            padding-right: 10px;
+                        }
+                    </style>
+                    <h1 :title="this.name" alt="\${this.name}">\${this.name}</h1>
+                    <div class="col12">
+                        <slot></slot>
+                    </div>
+                    <div class="col12">
+                        <div x-slot></div>
+                    </div>
+                `;
+            }
 
-			get properties() {
-				return {
-					name: '',
-					message: 'Запрещено, если флажок установлен.',
-					childMessage: '',
-					itemSelected: 1,
-					itemsList: ['Элемент 1', 'Элемент 2', 'Элемент 3'],
-					objectsSelected: 3,
-					objectsList: [{ name: 'Объект 1', value: '1' }, { name: 'Объект 2', value: '2' }, { name: 'Объект 3', value: '3' }],
-					multipleSelected: ['2', '3'],
-					multipleList: ['Элемент 1', 'Элемент 2', 'Элемент 3', 'Элемент 4', 'Элемент 5'],
-					checkbox: false,
-					checkboxes: ['1', '3'],
-					radio: 2,
-					clicks: 0,
-					changeBackground: true,
-					changeDecoration: false,
-					changeColor: false,
-					fontColor: 'green',
-					fontSize: 16,
-					classes: { underline: '1', color: '', background: '' },
-					classesArray: ['background', 'underline'],
-					date: new Date,
-				};
-			}
+            get properties() {
+                return {
+                    name: '',
+                    message: 'Запрещено, если флажок установлен.',
+                    childMessage: '',
+                    itemSelected: 1,
+                    itemsList: ['Элемент 1', 'Элемент 2', 'Элемент 3'],
+                    objectsSelected: 3,
+                    objectsList: [{ name: 'Объект 1', value: '1' }, { name: 'Объект 2', value: '2' }, { name: 'Объект 3', value: '3' }],
+                    multipleSelected: ['2', '3'],
+                    multipleList: ['Элемент 1', 'Элемент 2', 'Элемент 3', 'Элемент 4', 'Элемент 5'],
+                    checkbox: false,
+                    checkboxes: ['1', '3'],
+                    radio: 2,
+                    clicks: 0,
+                    changeBackground: true,
+                    changeDecoration: false,
+                    changeColor: false,
+                    fontColor: 'green',
+                    fontSize: 16,
+                    classes: { underline: '1', color: '', background: '' },
+                    classesArray: ['background', 'underline'],
+                    date: new Date,
+                };
+            }
 
-			get instanceProperty() {
-				return `Кликов: ${this.clicks}; Флажок ${this.checkbox ? 'установлен' : 'не установлен'}`;
-			}
+            get instanceProperty() {
+                return `Кликов: ${this.clicks}; Флажок ${this.checkbox ? 'установлен' : 'не установлен'}`;
+            }
 
-			connectedCallback() {
-				super.connectedCallback();
-				this.styleSheets = document.styleSheets;
-			}
+            connectedCallback() {
+                super.connectedCallback();
+                this.styleSheets = document.styleSheets;
+            }
 
-			instanceMethod() {
-				return `Кликов: ${this.clicks}; Флажок ${this.checkbox ? 'установлен' : 'не установлен'}`;
-			}
+            instanceMethod() {
+                return `Кликов: ${this.clicks}; Флажок ${this.checkbox ? 'установлен' : 'не установлен'}`;
+            }
 
-			clickHandler(e) {
-				this.clicks++;
-			}
+            clickHandler(e) {
+                this.clicks++;
+            }
 
-			notifyHandler(e) {
-				this.childMessage = e.detail.message;
-			}
-		});
+            notifyHandler(e) {
+                this.childMessage = e.detail.message;
+            }
+        });
 
-		customElements.define('x-children', class extends XElement {
-			get properties() {
-				return {
-					input: '',
-					selected: [],
-					sends: 0,
-				};
-			}
+        customElements.define('x-children', class extends XElement {
+            get properties() {
+                return {
+                    input: '',
+                    selected: [],
+                    sends: 0,
+                };
+            }
 
-			connectedCallback() {
-				super.connectedCallback();
-				this.styleSheets = document.styleSheets;
-			}
+            connectedCallback() {
+                super.connectedCallback();
+                this.styleSheets = document.styleSheets;
+            }
 
-			sendMessage() {
-				this.dispatchEvent(new CustomEvent('notify', {
-					detail: {
-						message: `Дочерний элемент сообщает: ${++this.sends}`,
-					}
-				}));
-			}
-		});
+            sendMessage() {
+                this.dispatchEvent(new CustomEvent('notify', {
+                    detail: {
+                        message: `Дочерний элемент сообщает: ${++this.sends}`,
+                    }
+                }));
+            }
+        });
 
-	</script>
+    </script>
 </body>
 </html>
