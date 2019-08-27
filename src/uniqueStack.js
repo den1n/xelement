@@ -2,7 +2,7 @@
  * Стек уникальных значений.
  */
 
-export default class UniqueStack {
+export class UniqueStack {
     /**
      * Конструктор.
      */

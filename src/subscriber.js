@@ -2,7 +2,7 @@
  * Подписчик на изменения.
  */
 
-export default class Subscriber {
+export class Subscriber {
     /**
      * Конструктор.
      * @param name имя.

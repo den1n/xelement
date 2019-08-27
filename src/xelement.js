@@ -1,8 +1,8 @@
 /* Dmitry Kadochnikov (iqmass@gmail.com). MIT License. */
 
 import * as Helpers from './helpers';
-import Subscriber from './subscriber';
-import UniqueStack from './uniqueStack';
+import {Subscriber} from './subscriber';
+import {UniqueStack} from './uniqueStack';
 
 // Символ проксированния.
 const proxied = Symbol('proxied');
@@ -14,7 +14,7 @@ const observersStack = new UniqueStack;
  * Базовый элемент.
  */
 
-export default class XElement extends HTMLElement {
+export class XElement extends HTMLElement {
     /**
      * Возвращает отслеживаемые атрибуты.
      */
